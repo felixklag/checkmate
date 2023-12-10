@@ -19,7 +19,7 @@ public class Board {
         pieces.add(new King(WHITE, new C(2, 4), this));
         pieces.add(new Bishop(WHITE, new C(0, 5), this));
         pieces.add(new Knight(WHITE, new C(0, 6), this));
-        pieces.add(new Rook(WHITE, new C(0, 7), this));
+        pieces.add(new Rook(WHITE, new C(3, 7), this));
 
         for (int i = 0; i < 8; i++) {
             pieces.add(new Pawn(WHITE, new C(1, i), this));
@@ -119,14 +119,12 @@ public class Board {
 
                 // Get all King moves
                 List<C> pieceMoves = piece.getPossibleMoves(this);
-                boolean[] couldTakeKing = new boolean[pieceMoves.size()];
 
                 // Check for every move the King can make if someone can take the King
                 for (C move : pieceMoves) {
                     piece.setPos(move);
 
                     // Get moves of Opponent
-                    List<String> oppMoves = new ArrayList<>();
                     for (Piece oppPiece : pieces) {
                         if (oppPiece.isWhite() == opponent.isWhite()) {
                             List<C> oppPieceMoves = oppPiece.getPossibleMoves(this);
@@ -137,7 +135,6 @@ public class Board {
                             }
                         }
                     }
-
                     // For this King position, if not a single Opponent Move could take the King
                     // the King is no longer in Danger
                     if (!moveTakesKing) {
