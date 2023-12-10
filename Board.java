@@ -12,7 +12,7 @@ public class Board {
     private List<Piece> pieces = new ArrayList<>();
 
     public Board() {
-        pieces.add(new Rook(WHITE, new C(2, 0), this));
+        pieces.add(new Rook(WHITE, new C(3, 1), this));
         pieces.add(new Knight(WHITE, new C(0, 1), this));
         pieces.add(new Bishop(WHITE, new C(0, 2), this));
         pieces.add(new Queen(WHITE, new C(0, 3), this));
@@ -30,9 +30,9 @@ public class Board {
 
         pieces.add(new Rook(BLACK, new C(7, 0), this));
         pieces.add(new Knight(BLACK, new C(7, 1), this));
-        pieces.add(new Bishop(BLACK, new C(2, 2), this));
+        pieces.add(new Bishop(BLACK, new C(7, 2), this));
         pieces.add(new Queen(BLACK, new C(7, 3), this));
-        pieces.add(new King(BLACK, new C(7, 4), this));
+        pieces.add(new King(BLACK, new C(3, 4), this));
         pieces.add(new Bishop(BLACK, new C(7, 5), this));
         pieces.add(new Knight(BLACK, new C(7, 6), this));
         pieces.add(new Rook(BLACK, new C(7, 7), this));
