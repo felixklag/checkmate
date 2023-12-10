@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Player currentPlayer;
+        Player opponentPlayer;
         Move currentMove;
         Scanner scanner = new Scanner(System.in);
 
@@ -18,22 +19,32 @@ public class Main {
 
         // Init
         currentPlayer = player_white;
-        board.printBoard();
-        List<String> test = board.getPossibleMoves(currentPlayer);
-        System.out.println(Arrays.toString(test.toArray()));
+        opponentPlayer = player_black;
 
-        // Game
-//        while(running) {
-//            board.printBoard();
-//            currentMove = currentPlayer.makeMove(board, scanner);
-//            // Check if game over
-//            if (currentPlayer.isWhite()) {
-//                currentPlayer = player_black;
-//            } else {
-//                currentPlayer = player_white;
-//            }
-//        }
-        board.printBoard();
+        while (running) {
+            // Print Board
+            board.printBoard();
 
+            // Debug Print Possible Moves
+            System.out.println(Arrays.toString(board.getPossibleMoves(currentPlayer).toArray()));
+
+            // Make Move
+            currentMove = new Move(board, currentPlayer, scanner);
+
+            // Switch Players
+            if (currentPlayer.isWhite()) {
+                currentPlayer = player_black;
+                opponentPlayer = player_white;
+            } else {
+                currentPlayer = player_white;
+                opponentPlayer = player_black;
+            }
+
+            // Check Game Over
+            if (board.checkMate(currentPlayer, opponentPlayer)) {
+                running = false;
+                System.out.println("Game Over!");
+            }
+        }
     }
 }

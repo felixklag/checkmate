@@ -12,7 +12,7 @@ public class Board {
     private List<Piece> pieces = new ArrayList<>();
 
     public Board() {
-        pieces.add(new Rook(WHITE, new C(0, 0), this));
+        pieces.add(new Rook(WHITE, new C(3, 0), this));
         pieces.add(new Knight(WHITE, new C(0, 1), this));
         pieces.add(new Bishop(WHITE, new C(0, 2), this));
         pieces.add(new Queen(WHITE, new C(0, 3), this));
@@ -32,7 +32,7 @@ public class Board {
         pieces.add(new Knight(BLACK, new C(7, 1), this));
         pieces.add(new Bishop(BLACK, new C(7, 2), this));
         pieces.add(new Queen(BLACK, new C(7, 3), this));
-        pieces.add(new King(BLACK, new C(3, 4), this));
+        pieces.add(new King(BLACK, new C(4, 4), this));
         pieces.add(new Bishop(BLACK, new C(7, 5), this));
         pieces.add(new Knight(BLACK, new C(7, 6), this));
         pieces.add(new Rook(BLACK, new C(7, 7), this));
@@ -100,10 +100,57 @@ public class Board {
 
     public Piece getPiece(C pos) {
         for (Piece piece : pieces) {
-            if (piece.getPos() == pos) {
+            if (piece.getPos().isSame(pos)) {
                 return piece;
             }
         }
         return null;
+    }
+
+    public boolean checkMate(Player current, Player opponent) {
+        boolean moveTakesKing = false;
+        boolean kingInDanger = true;
+
+        for (Piece piece : pieces) {
+            // Search King
+            if (piece.isWhite() == current.isWhite()
+                    && piece.getChar() == 'K') {
+                C initPos = piece.getPos();
+
+                // Get all King moves
+                List<C> pieceMoves = piece.getPossibleMoves(this);
+                boolean[] couldTakeKing = new boolean[pieceMoves.size()];
+
+                // Check for every move the King can make if someone can take the King
+                for (C move : pieceMoves) {
+                    piece.setPos(move);
+
+                    // Get moves of Opponent
+                    List<String> oppMoves = new ArrayList<>();
+                    for (Piece oppPiece : pieces) {
+                        if (oppPiece.isWhite() == opponent.isWhite()) {
+                            List<C> oppPieceMoves = oppPiece.getPossibleMoves(this);
+                            for (C c : oppPieceMoves) {
+                                if (piece.getPos().isSame(c)) {
+                                    moveTakesKing = true;
+                                }
+                            }
+                        }
+                    }
+
+                    // For this King position, if not a single Opponent Move could take the King
+                    // the King is no longer in Danger
+                    if (!moveTakesKing) {
+                        kingInDanger = false;
+                    }
+                    moveTakesKing = false;
+                }
+
+                // Reset Position
+                piece.setPos(initPos);
+            }
+        }
+
+        return kingInDanger;
     }
 }

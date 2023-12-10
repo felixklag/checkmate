@@ -1,17 +1,18 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class Move {
-    private boolean player;
+    private boolean white;
     private C startPos;
     private C endPos;
     private Piece piece;
 
-    public Move(boolean player, Board board, Scanner scanner) {
-        this.player = player;
+    public Move(Board board, Player player, Scanner scanner) {
+        this.white = player.isWhite();
         startPos = new C(0, 0);
         endPos = new C(0, 0);
 
-        if(player) {
+        if(white) {
             System.out.println("Current Player: White");
         } else {
             System.out.println("Current Player: Black");
@@ -23,12 +24,20 @@ public class Move {
             String command = scanner.nextLine();
 
             if (inputValid(command)) {
-                set(parse(command));
-            }
+                List<String> moves = board.getPossibleMoves(player);
 
-            if (isMovable(board)) {
-                board.move(startPos, endPos);
-                isValid = true;
+                if (moves.contains(command)) {
+                    // Set internal position
+                    set(parse(command));
+
+                    // Move piece
+                    piece = board.getPiece(startPos);
+                    piece.setPos(endPos);
+
+                    isValid = true;
+                } else {
+                    System.out.println("This is not a valid move!");
+                }
             }
         }
     }
@@ -46,7 +55,7 @@ public class Move {
             System.out.println("No piece on specified spot!");
             return false;
         }
-        if (piece.isWhite() != player) {
+        if (piece.isWhite() != white) {
             System.out.println("This is not your piece!");
             return false;
         }
