@@ -30,6 +30,12 @@ public class Move {
                     // Set internal position
                     set(parse(command));
 
+                    // Check if enemy piece is taken
+                    Piece enemy = board.getPiece(endPos);
+                    if (enemy != null) {
+                        board.getPieces().remove(enemy);
+                    }
+
                     // Move piece
                     piece = board.getPiece(startPos);
                     piece.setPos(endPos);

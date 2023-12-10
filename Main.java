@@ -43,6 +43,7 @@ public class Main {
             // Check Game Over
             if (board.checkMate(currentPlayer, opponentPlayer)) {
                 running = false;
+                board.printBoard();
                 System.out.println("Game Over!");
             }
         }
