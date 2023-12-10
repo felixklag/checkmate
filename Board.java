@@ -15,8 +15,8 @@ public class Board {
         pieces.add(new Rook(WHITE, new C(0, 0), this));
         pieces.add(new Knight(WHITE, new C(0, 1), this));
         pieces.add(new Bishop(WHITE, new C(0, 2), this));
-        pieces.add(new Queen(WHITE, new C(3, 2), this));
-        pieces.add(new King(WHITE, new C(0, 4), this));
+        pieces.add(new Queen(WHITE, new C(0, 3), this));
+        pieces.add(new King(WHITE, new C(2, 4), this));
         pieces.add(new Bishop(WHITE, new C(0, 5), this));
         pieces.add(new Knight(WHITE, new C(0, 6), this));
         pieces.add(new Rook(WHITE, new C(0, 7), this));
